@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title class="color">Teyvat farm</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="js/autentica.js"></script>
+    <script type="module" src="js/dias.js"></script>
+    <script type="module" src="js/fale.js"></script>
+   
+  
+</head>
+
+<body class="fundo">
+  
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <h1>Teyvat Farm</h1>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav w-100">
+              
+                <li class="nav-item flex-grow-1">
+                    <button class="btn w-100"><a class="nav-link" id="item" href="html/oracao.html">Oração</a></button>
+                </li>
+                <li class="nav-item flex-grow-1">
+                    <button class="btn w-100"><a class="nav-link" id="item" href="html/personagem.html">Personagem</a></button>
+                </li>
+                <li class="nav-item flex-grow-1">
+                    <button class="btn w-100"><a href="html/login.html">Login</a></button>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
+
+
+    <div id="container">
+
+        <h3> Banner Atual </h3>
+        <a href="html/oracao.html"><img class="banner" src="img/banner/banner.jpg_large" alt="Banner Cyno e Ayato"></a>
+        <br>
+        <h6><p id="contador"></p></h6>
+
+        <br>
+ 
+        <h3>Farm do Dia</h3>
+        <div class="row">
+            <h3>Dia</h3>
+            
+        </div>
+
+    </div>
+    <div id="container">
+        <h3>Fale conosco</h3>
+        <div class="input-group">
+            <div class="row">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+    
+            <div class="row">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+    
+            <div class="row full-width">
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+            </div>
+    
+            <div class="button-row">
+                <button class="btn button" id="enviarMensagem">Enviar</button>
+                <button class="btn button" id="limparCampos">🗑️ Limpar</button>
+            </div>
+        </div>
+    </div>
+    
+
+
+</body>
+
+</html>

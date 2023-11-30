@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Teyvat farm</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/estilo.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">  <script type="module" src="../js/autentica.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../js/autentica.js"></script>
+    <script type="module" src="../js/perso.js"></script>
+</head>
+
+<body class="fundo">
+   
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <h1><a href="../index.html" class="nav-link">Teyvat Farm</a></h1>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item flex-grow-1">
+                        <button class="btn w-100"><a class="nav-link" id="item" href="../index.html">Inicio</a></button>
+                    </li>
+                    <li class="nav-item flex-grow-1">
+                        <button class="btn w-100"><a class="nav-link" id="item"
+                                href="../html/oracao.html">Oração</a></button>
+                    </li>
+                    <li class="nav-item flex-grow-1">
+                        <button class="btn w-100"><a class="nav-link" id="item"
+                                href="../html/personagem.html">Personagem</a></button>
+                    </li>
+                    <li class="nav-item flex-grow-1">
+                        <button class="btn w-100"><a href="../html/login.html">Login</a></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="container">
+        <h3> Personagens </h3>
+        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Adicionar Personagem</button>       
+        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Atualizar</button>       
+        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Excluir Personagem</button>       
+
+
+        <div class="modal fade" id="adicionarPersonagemModal" tabindex="-1" aria-labelledby="adicionarPersonagemModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="adicionarPersonagemModalLabel">Adicionar Personagem</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="adicionarPersonagemForm">
+                            <div class="mb-3">
+                                <label for="imagemPersonagem" class="form-label">Imagem do Personagem:</label>
+                                <input type="file" class="form-control" id="imagemPersonagem" accept="image/*" onchange="previewImage()">
+                                <img id="preview" class="img-preview" alt="Preview da Imagem">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nomePersonagem" class="form-label">Nome do Personagem:</label>
+                                <input type="text" class="form-control" id="nomePersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nacaoPersonagem" class="form-label">Nação do Personagem:</label>
+                                <input type="text" class="form-control" id="nacaoPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="armaPersonagem" class="form-label">Arma do Personagem:</label>
+                                <input type="text" class="form-control" id="armaPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="estrelasPersonagem" class="form-label">Estrelas do Personagem:</label>
+                                <input type="number" class="form-control" id="estrelasPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nivelPersonagem" class="form-label">Nível do Personagem:</label>
+                                <input type="number" class="form-control" id="nivelPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vidaPersonagem" class="form-label">Vida do Personagem:</label>
+                                <input type="number" class="form-control" id="vidaPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="atqPersonagem" class="form-label">Ataque do Personagem:</label>
+                                <input type="number" class="form-control" id="atqPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="defPersonagem" class="form-label">Defesa do Personagem:</label>
+                                <input type="number" class="form-control" id="defPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profPersonagem" class="form-label">Proficiência do Personagem:</label>
+                                <input type="number" class="form-control" id="profPersonagem" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="elementoPersonagem" class="form-label">Elemento do Personagem:</label>
+                                <input type="text" class="form-control" id="elementoPersonagem" required>
+                            </div>
+            
+                            <!-- Adicione outros campos conforme necessário -->
+                            <button type="submit" class="btn btn-primary">Adicionar Personagem</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <div id="filterButtons">
+
+   
+        <button class="btn buttona" onclick="filterByNation('Mondstadt')" ><img class="nacao" src="../img/nacao/monst.png" alt=""></button>
+        <button class="btn buttona"  onclick="filterByNation('Liyue')" ><img class="nacao" src="../img/nacao/liyu.png" alt=""></button>
+        <button class="btn buttona" onclick="filterByNation('Fontaine')" ><img class="nacao" src="../img/nacao/font.png" alt=""></button>
+        <button class="btn buttona"  onclick="filterByNation('Inazuma')" ><img class="nacao" src="../img/nacao/inazu.png" alt=""></button>
+        <button class="btn buttona"  onclick="filterByNation('Sumeru')" ><img class="nacao" src="../img/nacao/sumeru.png" alt=""></button>
+    
+
+
+        </div>
+    
+        <div id="characterCards"></div>
+        
+    </div>
+
+    <br>
+</body>
+
+</html>
