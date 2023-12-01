@@ -1,100 +1,88 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  get,
+  remove,
+} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCLjhkvihtbmbLYRm8a4CetoYnMSSb5IHg",
-    authDomain: "teyvatfarm-fab65.firebaseapp.com",
-    databaseURL: "https://teyvatfarm-fab65-default-rtdb.firebaseio.com",
-    projectId: "teyvatfarm-fab65",
-    storageBucket: "teyvatfarm-fab65.appspot.com",
-    messagingSenderId: "92083536567",
-    appId: "1:92083536567:web:cfc6490a98c154b9ccc332",
-    measurementId: "G-KZ4FBM2YQ1"
-  };
-  // Initialize Firebase
-  const app= initializeApp(firebaseConfig);
-  const db=getDatabase();
+  apiKey: "AIzaSyCLjhkvihtbmbLYRm8a4CetoYnMSSb5IHg",
+  authDomain: "teyvatfarm-fab65.firebaseapp.com",
+  databaseURL: "https://teyvatfarm-fab65-default-rtdb.firebaseio.com",
+  projectId: "teyvatfarm-fab65",
+  storageBucket: "teyvatfarm-fab65.appspot.com",
+  messagingSenderId: "92083536567",
+  appId: "1:92083536567:web:cfc6490a98c154b9ccc332",
+  measurementId: "G-KZ4FBM2YQ1",
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase();
 
+let contadorId = 0;
 
-function renderCharacterCards(characters) {
-    const characterCardsContainer = document.getElementById('characterCards');
-    characterCardsContainer.innerHTML = '';
+function adicionarPersonagem() {
+  const tabela = document.getElementById("tabelaItens");
+  const tbody = tabela.getElementsByTagName("tbody")[0];
+  const quantidade = tbody.children.length + 1;
 
-    characters.forEach(character => {
-        const card = createCharacterCard(character);
-        characterCardsContainer.appendChild(card);
-    });
-}
+  const nome = document.getElementById("nome").value;
+  const nacao = document.getElementById("nacao").value;
+  const arma = document.getElementById("arma").value;
+  const estrelas = parseInt(document.getElementById("estrelas").value);
+  const nivel = parseInt(document.getElementById("nivel").value);
+  const vida = parseInt(document.getElementById("vida").value);
+  const atq = parseInt(document.getElementById("atq").value);
+  const defesa = parseInt(document.getElementById("def").value);
+  const proficiencia = parseInt(document.getElementById("prof").value); // Ensure this is a number
+  const elemento = document.getElementById("elemento").value;
 
-function createCharacterCard(character) {
-    const card = document.createElement('div');
-    card.classList.add('card');
+  // Gera uma nova referência usando push
+  const newItemRef = push(ref(db, "personagens"));
 
-    const characterImage = document.createElement('img');
-    characterImage.src = character.imagem;
-    characterImage.alt = character.name;
-    card.appendChild(characterImage);
+  // Extrai o ID da referência gerada
+  const itemId = newItemRef.key;
 
-    const characterInfo = document.createElement('div');
-    characterInfo.innerHTML = `
-        <p><strong>${character.name}</strong></p>
-        <p><strong>Nacao:</strong> ${character.nacao}</p>
-        <p><strong>Arma:</strong> ${character.arma}</p>
-        <p><strong>Estrelas:</strong> ${character.estrelas}</p>
-        <p><strong>Nivel:</strong> ${character.nivel}</p>
-        <p><strong>Vida:</strong> ${character.vida}</p>
-        <p><strong>Ataque:</strong> ${character.atq}</p>
-        <p><strong>Defesa:</strong> ${character.def}</p>
-        <p><strong>Proficiência:</strong> ${character.prof}</p>
-        <p><strong>Elemento:</strong> ${character.elemento}</p>
-        <button class="btn btn-favorite" onclick="toggleFavorite('${character.id}')">
-            ${character.favorito ? 'Remover Favorito' : 'Adicionar Favorito'}
-        </button>
-        <button class="btn btn-add" onclick="openAddCharacterModal('${character.id}')">
-            Adicionar Personagem
-        </button>
+  const newRow = tbody.insertRow();
+  newRow.setAttribute("data-id", itemId); // Define o atributo data-id com o ID gerado
+
+  newRow.innerHTML = `
+        <td>${quantidade}</td>
+        <td>${nome}</td>
+        <td>${nacao}</td>
+        <td>${arma}</td>
+        <td>${estrelas}</td>
+        <td>${nivel}</td>
+        <td>${vida}</td>
+        <td>${atq}</td>
+        <td>${defesa}</td>
+        <td>${proficiencia}</td>
+        <td>${elemento}</td>
     `;
-    card.appendChild(characterInfo);
 
-    return card;
+  contadorId++;
+
+  const personagem = {
+    id: contadorId,
+    nome: nome,
+    nacao: nacao,
+    arma: arma,
+    estrelas: estrelas,
+    nivel: nivel,
+    vida: vida,
+    atq: atq,
+    defesa: defesa,
+    proficiencia: proficiencia,
+    elemento: elemento,
+  };
+
+  // Envia os dados para o Firebase
+  set(newItemRef, personagem);
 }
 
-// Adiciona um novo personagem ao banco de dados
-function addCharacterToDatabase(characterData) {
-    // Aqui você deve enviar os dados para o Firebase Realtime Database
-    // Substitua esta parte com a lógica do seu projeto
-    const newItemRef = push(ref(db, 'personagens'));
-    set(newItemRef, characterData);
-}
-
-function openAddCharacterModal(characterId) {
-    const nomePersonagem = prompt('Nome do Personagem:');
-    const nacaoPersonagem = prompt('Nação do Personagem:');
-    const estrelasPersonagem = prompt('Estrelas do Personagem:');
-
-    // Adiciona um input para a seleção da imagem
-    const imagemPersonagem = prompt('Link da Imagem do Personagem:');
-
-    // Adicione outros prompts conforme necessário para outros campos
-
-    const characterData = {
-        id: characterId,
-        nome: nomePersonagem,
-        nacao: nacaoPersonagem,
-        estrelas: estrelasPersonagem,
-        imagem: imagemPersonagem, // Adiciona a imagem ao objeto de dados
-        // Preencha os outros campos conforme necessário
-    };
-
-    if (nomePersonagem && nacaoPersonagem && estrelasPersonagem) {
-        addCharacterToDatabase(characterData);
-    } else {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    renderCharacterCards(characters);
- });
-  
+document
+  .getElementById("btsalvarc")
+  .addEventListener("click", adicionarPersonagem);

@@ -49,7 +49,7 @@
     </nav>
 
     <div id="container">
-        <h3> Personagens </h3>
+        <h3> Perrsonagens </h3>
         <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Adicionar Personagem</button>       
         <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Atualizar</button>       
         <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Excluir Personagem</button>       
@@ -64,60 +64,61 @@
                     </div>
                     <div class="modal-body">
                         <form id="adicionarPersonagemForm">
-                            <div class="mb-3">
-                                <label for="imagemPersonagem" class="form-label">Imagem do Personagem:</label>
-                                <input type="file" class="form-control" id="imagemPersonagem" accept="image/*" onchange="previewImage()">
-                                <img id="preview" class="img-preview" alt="Preview da Imagem">
-                            </div>
+                         
                             <div class="mb-3">
                                 <label for="nomePersonagem" class="form-label">Nome do Personagem:</label>
-                                <input type="text" class="form-control" id="nomePersonagem" required>
+                                <input type="text" class="form-control" id="nome" required>
                             </div>
                             <div class="mb-3">
                                 <label for="nacaoPersonagem" class="form-label">Nação do Personagem:</label>
-                                <input type="text" class="form-control" id="nacaoPersonagem" required>
+                                <input type="text" class="form-control" id="nacao" required>
                             </div>
                             <div class="mb-3">
                                 <label for="armaPersonagem" class="form-label">Arma do Personagem:</label>
-                                <input type="text" class="form-control" id="armaPersonagem" required>
+                                <input type="text" class="form-control" id="arma" required>
                             </div>
                             <div class="mb-3">
                                 <label for="estrelasPersonagem" class="form-label">Estrelas do Personagem:</label>
-                                <input type="number" class="form-control" id="estrelasPersonagem" required>
+                                <input type="number" class="form-control" id="estrelas" required>
                             </div>
                             <div class="mb-3">
                                 <label for="nivelPersonagem" class="form-label">Nível do Personagem:</label>
-                                <input type="number" class="form-control" id="nivelPersonagem" required>
+                                <input type="number" class="form-control" id="nivel" required>
                             </div>
                             <div class="mb-3">
                                 <label for="vidaPersonagem" class="form-label">Vida do Personagem:</label>
-                                <input type="number" class="form-control" id="vidaPersonagem" required>
+                                <input type="number" class="form-control" id="vida" required>
                             </div>
                             <div class="mb-3">
                                 <label for="atqPersonagem" class="form-label">Ataque do Personagem:</label>
-                                <input type="number" class="form-control" id="atqPersonagem" required>
+                                <input type="number" class="form-control" id="atq" required>
                             </div>
                             <div class="mb-3">
                                 <label for="defPersonagem" class="form-label">Defesa do Personagem:</label>
-                                <input type="number" class="form-control" id="defPersonagem" required>
+                                <input type="number" class="form-control" id="def" required>
                             </div>
                             <div class="mb-3">
                                 <label for="profPersonagem" class="form-label">Proficiência do Personagem:</label>
-                                <input type="number" class="form-control" id="profPersonagem" required>
+                                <input type="number" class="form-control" id="prof" required>
                             </div>
                             <div class="mb-3">
                                 <label for="elementoPersonagem" class="form-label">Elemento do Personagem:</label>
-                                <input type="text" class="form-control" id="elementoPersonagem" required>
+                                <input type="text" class="form-control" id="elemento" required>
                             </div>
             
                             <!-- Adicione outros campos conforme necessário -->
-                            <button type="submit" class="btn btn-primary">Adicionar Personagem</button>
+                            <button id="btsalvarc" class="btn button">Adicionar Personagem</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    
+
+        <div id="filterInputs">
+            <label for="searchFilter">Pesquisar:</label>
+            <input type="text" id="searchFilter" oninput="filterCharacters()">
+        </div>
+        
 
         <div id="filterButtons">
 
@@ -133,6 +134,28 @@
         </div>
     
         <div id="characterCards"></div>
+        
+        <table id="tabelaItens" class="tableb">
+            <thead>
+                <tr>
+                    <th>Num</th>
+                    <th>Nome</th>
+                    <th>Nação</th>
+                    <th>Arma</th>
+                    <th>Estrelas</th>
+                    <th>Nível</th>
+                    <th>Vida</th>
+                    <th>Ataque</th>
+                    <th>Defesa</th>
+                    <th>Proficiência</th>
+                    <th>Elemento</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+
+        </table>
+        
         
     </div>
 
