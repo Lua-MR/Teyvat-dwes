@@ -41,24 +41,19 @@ onAuthStateChanged(auth, (user) => {
   get(personagensRef)
     .then((snapshot) => {
       if (snapshot.exists()) {
-        const personagensArray = [];
-
+      
         snapshot.forEach((childSnapshot) => {
           const personagem = childSnapshot.val();
-          personagensArray.push(personagem);
-        });
-
-        const personagensOrdenados = personagensArray.sort((a, b) => a.nome.localeCompare(b.nome));
-
-        personagensOrdenados.forEach((personagem) => {
+        
           const card = criarCard(personagem);
           characterCards.appendChild(card);
           contadorId++;
         });
-      } else {
-        console.log("Nenhum personagem encontrado no banco de dados.");
-      }
-    })
+          
+        }else {
+            console.log("Nenhum personagem encontrado no banco de dados.");
+          }
+        })
     .catch((error) => {
       console.error("Erro ao carregar personagens:", error);
     });
