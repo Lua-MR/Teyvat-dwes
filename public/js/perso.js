@@ -1,88 +1,267 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  push,
-  set,
-  get,
-  remove,
-} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+import { initializeApp } from "https:www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+import { getDatabase, ref, update, get, set, child, remove } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCLjhkvihtbmbLYRm8a4CetoYnMSSb5IHg",
-  authDomain: "teyvatfarm-fab65.firebaseapp.com",
-  databaseURL: "https://teyvatfarm-fab65-default-rtdb.firebaseio.com",
-  projectId: "teyvatfarm-fab65",
-  storageBucket: "teyvatfarm-fab65.appspot.com",
-  messagingSenderId: "92083536567",
-  appId: "1:92083536567:web:cfc6490a98c154b9ccc332",
-  measurementId: "G-KZ4FBM2YQ1",
+  apiKey: "AIzaSyABzPZI-zfsf6HynvCyEQjVA9s0oHQOFr0",
+  authDomain: "teyvatdwe.firebaseapp.com",
+  databaseURL: "https://teyvatdwe-default-rtdb.firebaseio.com",
+  projectId: "teyvatdwe",
+  storageBucket: "teyvatdwe.appspot.com",
+  messagingSenderId: "921626372720",
+  appId: "1:921626372720:web:c20f931ad0f94a3c0fa2b5",
+  measurementId: "G-QKX6HW4KCJ"
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getDatabase();
+const db = getDatabase(app);
+const auth = getAuth();
 
-let contadorId = 0;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    console.log(uid);
 
-function adicionarPersonagem() {
-  const tabela = document.getElementById("tabelaItens");
-  const tbody = tabela.getElementsByTagName("tbody")[0];
-  const quantidade = tbody.children.length + 1;
+    console.log("UID do usuário:", uid);
+  } else {
+    console.log("Usuário não autenticado");
+  }
+});
 
-  const nome = document.getElementById("nome").value;
-  const nacao = document.getElementById("nacao").value;
-  const arma = document.getElementById("arma").value;
-  const estrelas = parseInt(document.getElementById("estrelas").value);
-  const nivel = parseInt(document.getElementById("nivel").value);
-  const vida = parseInt(document.getElementById("vida").value);
-  const atq = parseInt(document.getElementById("atq").value);
-  const defesa = parseInt(document.getElementById("def").value);
-  const proficiencia = parseInt(document.getElementById("prof").value); // Ensure this is a number
-  const elemento = document.getElementById("elemento").value;
 
-  // Gera uma nova referência usando push
-  const newItemRef = push(ref(db, "personagens"));
+ let contadorId = 0;
 
-  // Extrai o ID da referência gerada
-  const itemId = newItemRef.key;
+ function carregarPersonagens() {
+  contadorId = 0;
+  const characterCards = document.getElementById("characterCards");
+  characterCards.innerHTML = "";
 
-  const newRow = tbody.insertRow();
-  newRow.setAttribute("data-id", itemId); // Define o atributo data-id com o ID gerado
+  const personagensRef = ref(db, 'person');
 
-  newRow.innerHTML = `
-        <td>${quantidade}</td>
-        <td>${nome}</td>
-        <td>${nacao}</td>
-        <td>${arma}</td>
-        <td>${estrelas}</td>
-        <td>${nivel}</td>
-        <td>${vida}</td>
-        <td>${atq}</td>
-        <td>${defesa}</td>
-        <td>${proficiencia}</td>
-        <td>${elemento}</td>
-    `;
+  get(personagensRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const personagensArray = [];
 
-  contadorId++;
+        snapshot.forEach((childSnapshot) => {
+          const personagem = childSnapshot.val();
+          personagensArray.push(personagem);
+        });
 
-  const personagem = {
-    id: contadorId,
-    nome: nome,
-    nacao: nacao,
-    arma: arma,
-    estrelas: estrelas,
-    nivel: nivel,
-    vida: vida,
-    atq: atq,
-    defesa: defesa,
-    proficiencia: proficiencia,
-    elemento: elemento,
-  };
+        const personagensOrdenados = personagensArray.sort((a, b) => a.nome.localeCompare(b.nome));
 
-  // Envia os dados para o Firebase
-  set(newItemRef, personagem);
+        personagensOrdenados.forEach((personagem) => {
+          const card = criarCard(personagem);
+          characterCards.appendChild(card);
+          contadorId++;
+        });
+      } else {
+        console.log("Nenhum personagem encontrado no banco de dados.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao carregar personagens:", error);
+    });
+
+  document.getElementById("searchFilter").addEventListener("input", filterCharacters);
 }
 
-document
-  .getElementById("btsalvarc")
-  .addEventListener("click", adicionarPersonagem);
+
+function filterCharacters() {
+  const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    const nome = card.querySelector("h2").textContent.toLowerCase();
+    const elemento = card.querySelector("p:nth-child(5)").textContent.toLowerCase().replace("elemento: ", "");
+    const arma = card.querySelector("p:nth-child(6)").textContent.toLowerCase().replace("arma: ", "");
+
+    const isMatchingSearch = nome.includes(searchFilter) || elemento.includes(searchFilter) || arma.includes(searchFilter);
+
+    if (isMatchingSearch) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+
+function atualizarCard(personagem, favoritosButton) {
+  const user = auth.currentUser;
+
+  if (user) {
+  const uid = user.uid;
+
+  const personagensUserRef = ref(db, `person/favorites/${uid}/${personagem.id}`);
+
+  get(personagensUserRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      personagem.favorito = true;
+      const personagensRef = ref(db, `person/${personagem.id}`);
+      update(personagensRef, { favorito: true });
+     
+    } else {
+      
+      personagem.favorito = false;
+      const personagensRef = ref(db, `person/${personagem.id}`);
+      update(personagensRef, { favorito: false });
+     
+    }
+
+    const buttonText = personagem.favorito ? '★' : '☆';
+    const buttonColor = personagem.favorito ? 'gold' : 'white';
+    favoritosButton.textContent = buttonText;
+    favoritosButton.style.backgroundColor = buttonColor;
+  });
+} else {
+  console.log("Usuário não logado");
+}
+}
+
+function criarCard(personagem) {
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.personId = personagem.id;
+
+  const isFavorite = personagem.favorito;
+  const buttonText = isFavorite ? '★' : '☆';
+  const buttonColor = isFavorite ? 'gold' : 'white';
+
+  const favoritosButton = document.createElement("button");
+  favoritosButton.className = "favoritos-button";
+  favoritosButton.textContent = buttonText;
+  favoritosButton.style.backgroundColor = buttonColor;
+
+  adicionarEstilos(card, personagem.elemento);
+  const estrelasHTML = gerarEstrelas(personagem.estrelas);
+
+  card.appendChild(favoritosButton); 
+  card.innerHTML += `
+  <br>
+    <h2>${personagem.nome}</h2>
+    <p>Nação: ${personagem.nacao}</p>
+    <p>Elemento: ${personagem.elemento}</p>
+    <p>Arma: ${personagem.arma}</p>
+    <p>Estrelas: ${estrelasHTML}</p>
+    <p>Nível: ${personagem.nivel}</p>
+    <p>Vida: ${personagem.vida}</p>
+    <p>Ataque: ${personagem.atq}</p>
+    <p>Defesa: ${personagem.defesa}</p>
+    <p>Proficiência: ${personagem.proficiencia}</p>
+  `;
+
+  atualizarCard(personagem, favoritosButton);
+
+  return card;
+}
+
+
+characterCards.addEventListener("click", (event) => {
+  const targetButton = event.target.closest(".favoritos-button");
+  if (targetButton) {
+    const card = targetButton.closest(".card");
+    const personId = card.dataset.personId;
+
+    const user = auth.currentUser;
+    if (user) {
+      toggleFavorite(personId, targetButton);
+      console.log('Botão de favoritos clicado!');
+    } else {
+      alert(" Faça login para adicionar aos favoritos.");
+    }
+  }
+});
+
+
+function gerarEstrelas(quantidade) {
+  const estrelasHTML = Array.from({ length: quantidade }, () => "⭐").join("");
+  return estrelasHTML;
+}
+
+function adicionarEstilos(card, elemento) {
+    card.style.borderRadius = "10px";
+  
+    const elementoLowerCase = elemento.toLowerCase(); 
+  
+    switch (elementoLowerCase) {
+      case "electro":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(97,54,138,1) 0%, rgba(175,111,174,1) 52%, rgba(58,0,96,1) 100%)";
+        break;
+      case "anemo":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(125,199,159,1) 0%, rgba(0,228,126,1) 45%, rgba(153,221,194,1) 100%)";
+        break;
+      case "dendro":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(51,130,60,1) 0%, rgba(123,244,121,1) 52%, rgba(21,163,4,1) 100%)";
+        break;
+      case "geo":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(199,167,97,1) 0%, rgba(231,205,74,1) 52%, rgba(227,114,16,1) 100%)";
+        break;
+      case "hydro":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(97,112,199,1) 0%, rgba(74,79,231,1) 52%, rgba(16,215,227,1) 100%)";
+        break;
+      case "pyro":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(214,29,29,1) 2%, rgba(255,81,81,1) 46%, rgba(182,43,43,1) 83%)";
+        break;
+      case "cryo":
+        card.style.backgroundImage = "linear-gradient(90deg, rgba(65,199,213,1) 0%, rgba(168,213,206,1) 45%, rgba(83,211,237,1) 100%)";
+        break;
+     
+    default:
+      card.style.backgroundImage = "linear-gradient(90deg, rgba(238,118,103,1) 0%, rgba(233,231,59,1) 16%, rgba(105,215,95,1) 36%, rgba(29,253,195,1) 54%, rgba(123,166,230,1) 71%, rgba(172,129,233,1) 82%, rgba(252,69,237,1) 100%)";
+      break;
+    }
+  }
+
+function toggleFavorite(personId, button) {
+
+  const user = auth.currentUser;
+
+  if (user) {
+    const uid = user.uid;
+    const personagensUserRef = ref(db, `person/favorites/${uid}/${personId}`);
+
+    get(personagensUserRef)
+    .then((snapshot) => {
+      const updatedFavoriteStatus = !snapshot.exists();
+
+      if (updatedFavoriteStatus) {
+        const personagensRef = ref(db, `person/${personId}`);
+        get(personagensRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const personagem = snapshot.val();
+            personagem.favorito = true;
+
+            const itensRef = ref(db, `person/favorites/${uid}/${personId}`);
+            set(itensRef, personagem);
+
+            atualizarCard(personagem, button);
+          }
+        });
+      } else {
+        const personagem = snapshot.val();
+        personagem.favorito = false;
+        const itensRef = ref(db, `person/${personId}`);
+        set(itensRef, personagem);
+        atualizarCard({ favorito: false }, button);
+        remove(personagensUserRef);
+       
+       
+      }
+
+      const buttonText = updatedFavoriteStatus ? '★' : '☆';
+      const buttonColor = updatedFavoriteStatus ? 'gold' : 'white';
+      button.textContent = buttonText;
+      button.style.backgroundColor = buttonColor;
+    }).catch((error) => {
+      console.error("Error checking favorite status:", error);
+    });
+  } else {
+    alert(" Faça login para adicionar aos favoritos.");
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", carregarPersonagens);

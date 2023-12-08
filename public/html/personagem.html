@@ -11,13 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="../js/autentica.js"></script>
     <script type="module" src="../js/perso.js"></script>
 </head>
 
 <body class="fundo">
-   
-    <!-- Navbar -->
+   <header>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <h1><a href="../index.html" class="nav-link">Teyvat Farm</a></h1>
@@ -34,132 +32,40 @@
                     </li>
                     <li class="nav-item flex-grow-1">
                         <button class="btn w-100"><a class="nav-link" id="item"
-                                href="../html/oracao.html">Oração</a></button>
+                                href="../html/oracao.html">✨Oração</a></button>
                     </li>
                     <li class="nav-item flex-grow-1">
                         <button class="btn w-100"><a class="nav-link" id="item"
-                                href="../html/personagem.html">Personagem</a></button>
+                                href="../html/personagem.html">🧚‍♀️Personagem</a></button>
                     </li>
                     <li class="nav-item flex-grow-1">
-                        <button class="btn w-100"><a href="../html/login.html">Login</a></button>
+                        <button class="btn w-100"><a class="nav-link" id="item" href="../html/login.html">👥Login</a></button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+</header>
 
+<main>
     <div id="container">
-        <h3> Perrsonagens </h3>
-        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Adicionar Personagem</button>       
-        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Atualizar</button>       
-        <button class="btn button" data-bs-toggle="modal" data-bs-target="#adicionarPersonagemModal">Excluir Personagem</button>       
-
-
-        <div class="modal fade" id="adicionarPersonagemModal" tabindex="-1" aria-labelledby="adicionarPersonagemModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="adicionarPersonagemModalLabel">Adicionar Personagem</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="adicionarPersonagemForm">
-                         
-                            <div class="mb-3">
-                                <label for="nomePersonagem" class="form-label">Nome do Personagem:</label>
-                                <input type="text" class="form-control" id="nome" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nacaoPersonagem" class="form-label">Nação do Personagem:</label>
-                                <input type="text" class="form-control" id="nacao" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="armaPersonagem" class="form-label">Arma do Personagem:</label>
-                                <input type="text" class="form-control" id="arma" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estrelasPersonagem" class="form-label">Estrelas do Personagem:</label>
-                                <input type="number" class="form-control" id="estrelas" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nivelPersonagem" class="form-label">Nível do Personagem:</label>
-                                <input type="number" class="form-control" id="nivel" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="vidaPersonagem" class="form-label">Vida do Personagem:</label>
-                                <input type="number" class="form-control" id="vida" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="atqPersonagem" class="form-label">Ataque do Personagem:</label>
-                                <input type="number" class="form-control" id="atq" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="defPersonagem" class="form-label">Defesa do Personagem:</label>
-                                <input type="number" class="form-control" id="def" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="profPersonagem" class="form-label">Proficiência do Personagem:</label>
-                                <input type="number" class="form-control" id="prof" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="elementoPersonagem" class="form-label">Elemento do Personagem:</label>
-                                <input type="text" class="form-control" id="elemento" required>
-                            </div>
-            
-                            <!-- Adicione outros campos conforme necessário -->
-                            <button id="btsalvarc" class="btn button">Adicionar Personagem</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <h3> Personagens </h3>
+      
         <div id="filterInputs">
             <label for="searchFilter">Pesquisar:</label>
-            <input type="text" id="searchFilter" oninput="filterCharacters()">
-        </div>
-        
-
-        <div id="filterButtons">
-
-   
-        <button class="btn buttona" onclick="filterByNation('Mondstadt')" ><img class="nacao" src="../img/nacao/monst.png" alt=""></button>
-        <button class="btn buttona"  onclick="filterByNation('Liyue')" ><img class="nacao" src="../img/nacao/liyu.png" alt=""></button>
-        <button class="btn buttona" onclick="filterByNation('Fontaine')" ><img class="nacao" src="../img/nacao/font.png" alt=""></button>
-        <button class="btn buttona"  onclick="filterByNation('Inazuma')" ><img class="nacao" src="../img/nacao/inazu.png" alt=""></button>
-        <button class="btn buttona"  onclick="filterByNation('Sumeru')" ><img class="nacao" src="../img/nacao/sumeru.png" alt=""></button>
-    
-
-
+            <input type="text" id="searchFilter" oninput="filterCharacters()" placeholder="&#128270; nome, elemento ou arma">
         </div>
     
-        <div id="characterCards"></div>
-        
-        <table id="tabelaItens" class="tableb">
-            <thead>
-                <tr>
-                    <th>Num</th>
-                    <th>Nome</th>
-                    <th>Nação</th>
-                    <th>Arma</th>
-                    <th>Estrelas</th>
-                    <th>Nível</th>
-                    <th>Vida</th>
-                    <th>Ataque</th>
-                    <th>Defesa</th>
-                    <th>Proficiência</th>
-                    <th>Elemento</th>
-                    <th>Data</th>
-                </tr>
-            </thead>
-            <tbody>
-
-        </table>
-        
-        
+        <div id="characterCards"></div>        
+       
     </div>
-
+</main>
     <br>
+
+    <footer>
+        Luana Matallo Ruggiero
+    </footer>
+    
 </body>
 
 </html>

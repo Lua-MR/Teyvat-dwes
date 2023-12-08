@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Teyvat farm</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/estilo.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">  <script type="module" src="../js/autentica.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../js/persoadm.js"></script>
+</head>
+
+<body class="fundo">
+   <header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <h1><a href="#" class="nav-link">Teyvat Farm -ADM</a></h1>
+
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div id="container">
+        <h3> Personagens </h3>
+        <br>
+
+        <div id="containerl">
+            <h2>Adicionar Personagem</h2>
+        <div class="input-groupe">
+         
+                            <div class="mb-3">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nacao">Nação</label>
+                                <input type="text" id="nacao">
+                            </div>
+                            <div class="mb-3">
+                                <label for="arma">Arma</label>
+                                <input type="text" id="arma">
+                            </div>
+                            <div class="mb-3">
+                                <label for="estrelas">Estrelas</label>
+                                <input type="number" id="estrelas">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nivel">Nível</label>
+                                <input type="number" id="nivel">
+                            </div>
+                            <div class="mb-3">
+                                <label for="vida">Vida</label>
+                                <input type="number" id="vida">
+                            </div>
+                            <div class="mb-3">
+                                <label for="atq">Ataque</label>
+                                <input type="number" id="atq">
+                            </div>
+                            <div class="mb-3">
+                                <label for="def">Defesa</label>
+                                <input type="number" id="def">
+                            </div>
+                            <div class="mb-3">
+                                <label for="prof">Proficiência</label>
+                                <input type="number" id="prof">
+                            </div>
+                            <div class="mb-3">
+                                <label for="elemento">Elemento</label>
+                                <input type="text" id="elemento">
+                            </div>
+        </div>
+                            <div class="input-groupe">  
+                            <button class="btn button" id="btsalvarper">Salvar</button>
+                            <button class="btn button" id="btlimparper">Limpar</button>
+                       </div>
+                       
+                        
+                         
+                    </div>
+
+
+                    <div id="containerl">
+                        <h2> Alterar Personagem</h2>
+                        <div id="filterInputs1">
+                            <label for="searchFilter">Pesquisar:</label>
+                            <input type="text" id="searchFilter" oninput="filterCharacters()" placeholder="&#128270; nome">
+                        </div>
+                    
+                <div class="input-groupe">
+                    <div class="mb-3">
+                        <label for="idAlterar">Id</label>
+                        <input type="text" id="idAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nomeAlterar">Nome</label>
+                        <input type="text" id="nomeAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nacaoAlterar">Nação</label>
+                        <input type="text" id="nacaoAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="armaAlterar">Arma</label>
+                        <input type="text" id="armaAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="estrelasAlterar">Estrelas</label>
+                        <input type="number" id="estrelasAlterar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nivelAlterar">Nível</label>
+                        <input type="number" id="nivelAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="vidaAlterar">Vida</label>
+                        <input type="number" id="vidaAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="atqAlterar">Ataque</label>
+                        <input type="number" id="atqAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="defAlterar">Defesa</label>
+                        <input type="number" id="defAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="profAlterar">Proficiência</label>
+                        <input type="number" id="profAlterar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="elementoAlterar">Elemento</label>
+                        <input type="text" id="elementoAlterar">
+                    </div>
+   
+        </div>
+        <div class="input-groupe">  
+        <button class="btn button" id="btsalvarperatt">Salvar</button>
+        <button class="btn button" id="excluirp">Excluir Personagem</button>
+             </div>
+         
+    </div>
+
+
+        <div id="characterCards"></div>        
+       
+    </div>
+</main>
+    <br>
+
+    <footer>
+        Luana Matallo Ruggiero
+    </footer>
+    
+</body>
+
+
+</html>

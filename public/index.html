@@ -13,13 +13,14 @@
     <script type="module" src="js/autentica.js"></script>
     <script type="module" src="js/dias.js"></script>
     <script type="module" src="js/fale.js"></script>
-   
+    <script type="module" src="js/perso.js"></script>
+    <script type="module" src="js/persoh.js"></script>
+
   
 </head>
 
 <body class="fundo">
-  
-   <!-- Navbar -->
+    <header>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <h1>Teyvat Farm</h1>
@@ -33,13 +34,13 @@
             <ul class="navbar-nav w-100">
               
                 <li class="nav-item flex-grow-1">
-                    <button class="btn w-100"><a class="nav-link" id="item" href="html/oracao.html">Oração</a></button>
+                    <button class="btn w-100"><a class="nav-link" id="item" href="html/oracao.html">✨Oração</a></button>
                 </li>
                 <li class="nav-item flex-grow-1">
-                    <button class="btn w-100"><a class="nav-link" id="item" href="html/personagem.html">Personagem</a></button>
+                    <button class="btn w-100"><a class="nav-link" id="item" href="html/personagem.html">🧚‍♀️Personagem</a></button>
                 </li>
                 <li class="nav-item flex-grow-1">
-                    <button class="btn w-100"><a href="html/login.html">Login</a></button>
+                    <button class="btn w-100"><a class="nav-link" id="item" href="html/login.html">👥Login</a></button>
                 </li>
             </ul>
         </div>
@@ -47,22 +48,112 @@
 
     </div>
 </nav>
+</header>
 
+<main>
 
     <div id="container">
 
-        <h3> Banner Atual </h3>
-        <a href="html/oracao.html"><img class="banner" src="img/banner/banner.jpg_large" alt="Banner Cyno e Ayato"></a>
-        <br>
-        <h6><p id="contador"></p></h6>
+        <h3> Nações </h3>
 
-        <br>
- 
-        <h3>Farm do Dia</h3>
-        <div class="row">
-            <h3>Dia</h3>
-            
+        <div id="filterButtons">
+            <button id="btnMondstadt" class="btn buttona"><img class="nacao" src="img/nacao/monst.png" alt=""></button>
+            <button id="btnLiyue" class="btn buttona"><img class="nacao" src="img/nacao/liyu.png" alt=""></button>
+            <button id="btnFontaine" class="btn buttona"><img class="nacao" src="img/nacao/font.png" alt=""></button>
+            <button id="btnInazuma" class="btn buttona"><img class="nacao" src="img/nacao/inazu.png" alt=""></button>
+            <button id="btnSumeru" class="btn buttona"><img class="nacao" src="img/nacao/sumeru.png" alt=""></button>
+
+          
+            </div>
+            <div id="modalMondstadt" class="modal">
+                <div class="modal-contentt">
+                    <span class="close" id="fecharMondstadt" onclick="closeModal('modalMondstadt')">&times;</span>
+                    <h1><b><p>Mondstadt</p></b></h1>
+                  <h3>É uma das sete nações de Teyvat, e a primeira nação em que o Viajante começa a busca por seu irmão(a).
+                     É a nação que venera Barbatos, o Arconte Anemo e Deus da Liberbade.</h3>
+                <div>
+                    <br>
+                    <img class="imgnacao" src="img/nacao/Monds/Colina_Silvante_-_Mondstadt.jpg" alt="Colina Silvante">
+                    <img class="imgnacao" src="img/nacao/Monds/Espinha_do_Drag.jpg"  alt="Espinha do dragão">
+                    <img class="imgnacao" src="img/nacao/Monds/Montanhas_das_Coroas_-_Mondstadt.jpg"  alt="Montanhas das coroas">
+                </div>
+                <h4>A Cidade de Mondstadt, também conhecida como Coroa do Norte é a principal cidade da nação de Mondstadt.</h4>
+                    </div>
+            </div>
+              
+              <div id="modalLiyue" class="modal">
+                <div class="modal-contentt">
+                    <span class="close" id="fecharLiyue" onclick="closeModal('modalLiyue')">&times;</span>
+                    <h1><b></b><p>Liyue</p></b></h1>
+                  <h3>Liyue é uma das sete nações de Teyvat. É a nação que venera Morax, o Arconte Geo e Deus dos Contratos</h3>
+                <div>
+                    <br>
+                    <img class="imgnacao" src="img/nacao/liyu/Despenhadeiro.jpg" alt="Despenhadeiro">
+                    <img class="imgnacao" src="img/nacao/liyu/Qiongji.jpg"  alt="Estuário de Qiongji">
+                    <img class="imgnacao" src="img/nacao/liyu/porto.jpg"  alt="Porto de Liyue">
+                </div>
+                <h4>Um porto próspero localizado ao leste de Teyvat.</h4>
+                    </div>
+                </div>
+                  
+              <div id="modalInazuma" class="modal">
+                <div class="modal-contentt">
+                    <span class="close" id="fecharInazuma" onclick="closeModal('modalInazuma')">&times;</span>
+                    <h1><b><p>Inazuma</p></b></h1>
+                  <h3>Inazuma é uma das sete nações de Teyvat. É o arquipélago que venera a Shogun Raiden, 
+                    a atual Arconte Electro e Deusa da Eternidade, que também é a líder de seu corpo governante, o Shogunato de Inazuma.</h3>
+                <div>
+                    <br>
+                    <img class="imgnacao" src="img/nacao/inaz/Ilha_Yashiori.jpg" alt="Ilha Yashiori">
+                    <img class="imgnacao" src="img/nacao/inaz/Ilha_Watatsumi.jpg"  alt="Ilha Watatsumi">
+                    <img class="imgnacao" src="img/nacao/inaz/Ilha_Seirai.jpg"  alt="Ilha Seirai">
+                </div>
+                <h4>O Grande Santuário Narukami fica localizado no pico da Montanha Yougou e é o maior santuário de Inazuma, protegendo a Sakura Sagrada e proporcionando o conforto e a paz necessários ao povo de Inazuma nestes tempos difíceis.</h4>
+                    </div>
+                </div>
+
+                <div id="modalSumeru" class="modal">
+                    <div class="modal-contentt">
+                        <span class="close" id="fecharSumeru" onclick="closeModal('modalSumeru')">&times;</span>
+                        <h1><b><p>Sumeru</p></b></h1>
+                      <h3>Sumeru é uma das sete nações de Teyvat. É a nação que venera a Lorde Menor Kusanali, atual Arconte Dendro e Deusa da Sabedoria. É reconhecida como centro do aprendizado acadêmico e abriga a Academia Sumeru.</h3>
+                    <div>
+                        <br>
+                        <img class="imgnacao" src="img/nacao/sum/Hypostyle_Desert.jpg" alt="Hipostilo Desértico">
+                        <img class="imgnacao" src="img/nacao/sum/Vanarana.jpg"  alt="Vanarana">
+                        <img class="imgnacao" src="img/nacao/sum/Floresta_Lokapala.jpg"  alt="Floresta Lokapala">
+                    </div>
+                    <h4>Vanarana em Genshin Impact - localização no norte Sumeru, que é habitado por muitas criaturas que se autodenominam aranars. Para ter acesso à Estátua do Arconte, localizada no mundo místico, o Viajante terá que conquistar sua confiança e passar no teste. Além disso, o local possui dois estados, real e sonho</h4>
+                        </div>
+                    </div>
+
+                    <div id="modalFontaine" class="modal">
+                        <div class="modal-contentt">
+                            <span class="close" id="fecharFontaine" onclick="closeModal('modalFontaine')">&times;</span>
+                            <h1><b><p>Fontaine</p></b></h1>
+                          <h3>Fontaine é uma das sete nações de Teyvat. É a nação que venera Focalors, a atual Arconte Hydro e Deusa da Justiça.</h3>
+                        <div>
+                            <br>
+                            <img class="imgnacao" src="img/nacao/fon/Court_of_Fontaine_Region.jpg" alt="Distrito da Corte de Fontaine">
+                            <img class="imgnacao" src="img/nacao/fon/Belleau_Region.jpg"  alt="Distrito Belleau"">
+                            <img class="imgnacao" src="img/nacao/fon/Beryl_Region.jpg"  alt="Distrito Beryl">
+                        </div>
+                        <h4>Ao explorar a área da Floresta Erinyes em Fontaine, você pode encontrar e desbloquear 8 baús preciosos. Um deles é uma missão e é concedido por completar com sucesso a tarefa Wild Fairy Erinyes, e para abrir o outro você precisa coletar chaves de cofre simples. O resto são recompensas por resolver vários enigmas na floresta.</h4>
+                            </div>
+                        </div>
         </div>
+
+        <div id="container">
+                        <h3> Banner Atual </h3>
+                        <br>
+                        <a href="html/oracao.html"><img class="banner" src="img/banner/banner.jpg_large" alt="Banner Cyno e Ayato"></a>
+                        <br>
+                        <h6><p id="contador"></p></h6>
+                
+                        <br>
+                 
+
+              </div>
 
     </div>
     <div id="container">
@@ -84,12 +175,16 @@
             </div>
     
             <div class="button-row">
-                <button class="btn button" id="enviarMensagem">Enviar</button>
+                <button class="btn button" id="enviarMensagem">➥Enviar</button>
                 <button class="btn button" id="limparCampos">🗑️ Limpar</button>
             </div>
         </div>
     </div>
-    
+</main>
+
+<footer>
+    Luana Matallo Ruggiero
+</footer>
 
 
 </body>

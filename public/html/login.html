@@ -9,17 +9,17 @@
     <link rel="stylesheet" type="text/css" href="../css/estilo.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-functions.js"></script>
     
 
-   <!--<script src="../js/login.js"></script>-->
+   <script type="module"  src="../js/logar.js"></script>
 </head>
 
 <body class="fundo">
-   
-    <!-- Navbar -->
+<header>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <h1><a href="../index.html" class="nav-link">Teyvat Farm</a></h1>
@@ -36,168 +36,53 @@
                     </li>
                     <li class="nav-item flex-grow-1">
                         <button class="btn w-100"><a class="nav-link" id="item"
-                                href="../html/oracao.html">Oração</a></button>
+                                href="../html/oracao.html">✨Oração</a></button>
                     </li>
                     <li class="nav-item flex-grow-1">
                         <button class="btn w-100"><a class="nav-link" id="item"
-                                href="../html/personagem.html">Personagem</a></button>
+                                href="../html/personagem.html">🧚‍♀️Personagem</a></button>
                     </li>
                     <li class="nav-item flex-grow-1">
-                        <button class="btn w-100"><a href="../html/login.html">Login</a></button>
+                        <button class="btn w-100"><a  class="nav-link" id="item" href="../html/login.html">👥Login</a></button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+</header>
 
+<main>
     <div  id="container">
         <h1>Login</h1>
+                <div id="containerl">
+                    <div class="buttoncadas">
+                        <button class="btn buttoni" id="authAnonymouslyButton">🕵️ Entrar em modo Anonimo</button>
+                    </div>
 
-        <div class="col-md-4">
-            <h3 class="text-center" id="displayName">Faça seu Login</h3>
-            <p id="loadEL"></p>
-            <br>
-            <form>
-                <div class="form-group">
+                    <div class="input-groupl">
                     <label for="emailInput">E-mail</label>
-                    <input type="email" class="form-control" id="emailInput" placeholder="E-mail">
-                </div>
-                <div class="form-group">
+                    <input type="email" class="form-control" id="emailInput" placeholder="seuemail@exemple.com">
+              
                     <label for="passwordInput">Senha</label>
-                    <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
+                    <input type="password" class="form-control" id="passwordInput" placeholder="Senha 6 digitos minimos">
+                
                 </div>
-            </form>
-    
-            <button class="btn button" id="authEmailPassButton">Entrar</button>
-            <button class="btn button" id="authGoogleButton">Entrar google</i></button>
-            <button class="btn button" id="authAnonymouslyButton">Anonimo</button>
-            <br>
-            <button class="btn button" id="createUserButton">Criar Nova Conta</button>
-    
-            <br>
-    
-        </div>
+                <div class="input-groupe">
+                    <button class="btn button" id="authEmailPassButton">Entrar</button>
+                    <button class="btn button" id="authGoogleButton">Entrar google</i></button>
+                    <button class="btn button" id="createUserButton">Criar Conta</button>
+                 </div>
+                </div>
+
+
     </div>
+</main>
   
+    <footer>
+        Luana Matallo Ruggiero
+    </footer>
+    
 </body>
-<script>
-    const firebaseConfig = {
-  apiKey: "AIzaSyCLjhkvihtbmbLYRm8a4CetoYnMSSb5IHg",
-  authDomain: "teyvatfarm-fab65.firebaseapp.com",
-  databaseURL: "https://teyvatfarm-fab65-default-rtdb.firebaseio.com",
-  projectId: "teyvatfarm-fab65",
-  storageBucket: "teyvatfarm-fab65.appspot.com",
-  messagingSenderId: "92083536567",
-  appId: "1:92083536567:web:cfc6490a98c154b9ccc332",
-  measurementId: "G-KZ4FBM2YQ1",
-};
-
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const authEmailPassButton = document.getElementById("authEmailPassButton");
-const authGoogleButton = document.getElementById("authGoogleButton");
-const authAnonymouslyButton = document.getElementById("authAnonymouslyButton");
-const createUserButton = document.getElementById("createUserButton");
-const logOutButton = document.getElementById("logOutButton");
-
-// Inputs
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
-
-// Display
-const displayName = document.getElementById("displayName");
-
-console.log(
-  authEmailPassButton,
-  authGoogleButton,
-  authAnonymouslyButton,
-  createUserButton,
-  logOutButton,
-);
-console.log(emailInput, passwordInput, displayName);
-
-// Criar novo usuário
-createUserButton.addEventListener("click", () => {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
-    .then(() => {
-      alert(`Bem-vindo ${emailInput.value}`);
-    })
-    .catch((error) => {
-      console.error(error.code);
-      console.error(error.message);
-      alert("Falha ao cadastrar, verifique o erro no console.");
-    });
-});
-
-// Autenticar com E-mail e Senha
-authEmailPassButton.addEventListener("click", () => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-    .then((result) => {
-      console.log(result);
-      displayName.innerText = `Bem-vindo, ${emailInput.value}`;
-      alert(`Autenticado ${emailInput.value}`);
-    })
-    .catch((error) => {
-      console.error(error.code);
-      console.error(error.message);
-      alert("Falha ao autenticar, verifique o erro no console.");
-    });
-});
-
-// Logout
-logOutButton.addEventListener("click", () => {
-  firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      displayName.innerText = "Você não está autenticado";
-      alert("Você se deslogou");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-});
-
-// Autenticar Anônimo
-authAnonymouslyButton.addEventListener("click", () => {
-  firebase
-    .auth()
-    .signInAnonymously()
-    .then((result) => {
-      console.log(result);
-      displayName.innerText = "Bem-vindo, desconhecido";
-      alert("Autenticado Anonimamente");
-    })
-    .catch((error) => {
-      console.error(error.code);
-      console.error(error.message);
-      alert("Falha ao autenticar, verifique o erro no console.");
-    });
-});
-
-// Autenticar com Google
-authGoogleButton.addEventListener("click", () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      console.log(result);
-      const token = result.credential.accessToken;
-      displayName.innerText = `Bem-vindo, ${result.user.displayName}`;
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("Falha na autenticação");
-    });
-});
-
-    </script>
 
 </html>
+           

@@ -1,21 +1,33 @@
-
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
 import { getDatabase, ref, push, set, get, remove } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCLjhkvihtbmbLYRm8a4CetoYnMSSb5IHg",
-    authDomain: "teyvatfarm-fab65.firebaseapp.com",
-    databaseURL: "https://teyvatfarm-fab65-default-rtdb.firebaseio.com",
-    projectId: "teyvatfarm-fab65",
-    storageBucket: "teyvatfarm-fab65.appspot.com",
-    messagingSenderId: "92083536567",
-    appId: "1:92083536567:web:cfc6490a98c154b9ccc332",
-    measurementId: "G-KZ4FBM2YQ1"
+    apiKey: "AIzaSyABzPZI-zfsf6HynvCyEQjVA9s0oHQOFr0",
+    authDomain: "teyvatdwe.firebaseapp.com",
+    databaseURL: "https://teyvatdwe-default-rtdb.firebaseio.com",
+    projectId: "teyvatdwe",
+    storageBucket: "teyvatdwe.appspot.com",
+    messagingSenderId: "921626372720",
+    appId: "1:921626372720:web:c20f931ad0f94a3c0fa2b5",
+    measurementId: "G-QKX6HW4KCJ"
   };
   // Initialize Firebase
   const app= initializeApp(firebaseConfig);
   const db=getDatabase();
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log(uid);
+  
+      console.log("UID do usuário:", uid);
+    } else {
+      console.log("Usuário não autenticado");
+    }
+  });
 
   let contadorId = 0;
   let pitty = 0;
@@ -31,13 +43,16 @@ const firebaseConfig = {
     const tabela = document.getElementById("tabelaItens");
     const tbody = tabela.getElementsByTagName("tbody")[0];
 
+    const user = auth.currentUser;
+
+    if (user) {
     const quantidade = tbody.children.length + 1;
     const nome = document.getElementById("nome").value;
     const tipo = document.getElementById("tipo").value;
     const estrelas = parseInt(document.getElementById("estrelas").value);
     const data = document.getElementById("data").value;
 
-    // Verifica se os campos estrelas e tipo não estão vazios
+  
     if (!tipo || !estrelas) {
         alert("Por favor, preencha os campos Tipo e Estrelas.");
         return;
@@ -61,14 +76,10 @@ const firebaseConfig = {
         return;
     }
 
-    // Gera uma nova referência usando push
-    const newItemRef = push(ref(db, 'desejo'));
 
-    // Extrai o ID da referência gerada
-    const itemId = newItemRef.key;
-
+   
     const newRow = tbody.insertRow();
-    newRow.setAttribute("data-id", itemId); // Define o atributo data-id com o ID gerado
+    newRow.setAttribute("data-id", contadorId); 
 
     newRow.innerHTML = `
         <td>${quantidade}</td>
@@ -88,11 +99,12 @@ const firebaseConfig = {
         newRow.classList.add("simple-row");
     }
 
-    contadorId++;
+
     incrementarPitty();
     atualizarGraficos();
     atualizarGraficoPizza();
 
+    contadorId++;
     const desejo = {
         id: contadorId, 
         nome: nome,
@@ -101,10 +113,20 @@ const firebaseConfig = {
         data: data || ""
     };
 
-    // Envia os dados para o Firebase
-    set(newItemRef, desejo);
+    enviarParaFirebase(desejo);
+}else {
+        alert("Usuário não autenticado. Faça login para enviar mensagens.");
+    }
 }
 
+function enviarParaFirebase(desejo) {
+    const user = auth.currentUser;
+    const uid = user.uid;
+  
+    const newItemRef = ref(db, 'desejo/'+ uid + contadorId);
+    
+   set(newItemRef, desejo);
+}
 
 function incrementarPitty() {
     pitty++;
@@ -123,52 +145,45 @@ function atualizarGraficos() {
 }
 
 function LimparItem() {
-    // Adiciona uma confirmação
+
     var confirmacao = confirm("Você tem certeza que deseja apagar todos os dados da tabela e do pitty?\n Essa ação não poderá ser desfeita!");
     
-    // Se o usuário confirmar, prossiga com a limpeza
+  
     if (confirmacao) {
-        // Armazenar os dados antes da limpeza
+      
         dadosAntigos.tabela = clonarTabela();
         dadosAntigos.pitty = document.getElementById("pittyCount").innerText;
 
-        // Limpar os campos de entrada
+    
         document.getElementById("nome").value = "";
         document.getElementById("tipo").value = "";
         document.getElementById("estrelas").value = "";
         document.getElementById("data").value = "";
 
-        // Limpar os dados da tabela
+    
         var tabela = document.getElementById("tabelaItens");
         var tbody = tabela.getElementsByTagName("tbody")[0];
-        tbody.innerHTML = ""; // Limpar todas as linhas da tabela
+        tbody.innerHTML = "";
 
-        // Limpar o contador de pitty
         document.getElementById("pittyCount").innerText = "0";
         pitty = 0;
         atualizarGraficos();
 
-        // Limpar os dados no Firebase
-        contadorId = 0;
-        limparDadosFirebase();
+       
+        while(contadorId>=1){
+            console.log(contadorId)
+            const user = auth.currentUser;
+            const uid = user.uid;
+
+            remove(ref(db, "desejo/" + uid +  contadorId));
+            contadorId--;
+        }
+    
+      
+
     }
 }
 
-function limparDadosFirebase() {3
-    const itensRef = ref(db, 'desejo');
-
-    // Obter uma referência para os dados em 'desejo'
-    const desejoRef = ref(itensRef, '/');
-
-    // Remover todos os dados do nó 'desejo'
-    set(desejoRef, null)
-        .then(() => {
-            console.log("Dados do Firebase removidos com sucesso!");
-        })
-        .catch(error => {
-            console.error("Erro ao remover dados do Firebase:", error);
-        });
-}
 
 function DesfazItem() {
     console.log("Iniciando DesfazItem...");
@@ -189,7 +204,10 @@ function DesfazItem() {
             contadorId=0;
         }
 
-        desfazerNoFirebase();
+        const user = auth.currentUser;
+        const uid = user.uid;
+
+        remove(ref(db, "desejo/" + uid + contadorId));
         contadorId--;
 
        
@@ -199,27 +217,11 @@ function DesfazItem() {
         atualizarGraficoPizza();
     }
 
-    // Limpar o contador de pitty
+
     document.getElementById("pittyCount").innerText = "0";
     
    
 }
-
-function desfazerNoFirebase() {
-    remove(ref(db, "desejo/"+id.value),{
-       data:varTitulo.value,
-        nome: varArtista.value,
-        tipo:varTitulo.value,
-        estrelas: varArtista.value
-
-   }).then(()=>{
-        console.log("excluído com sucesso");
-   })
-   .catch((error)=>{
-        console.log("erro de exclusão");
-   })
-}
-
 
 function clonarTabela() {
     var tabela = document.getElementById("tabelaItens");
@@ -242,13 +244,11 @@ function atualizarProgrBarra() {
     const barraProgresso = document.getElementById("barraProgresso");
     let percentual = (pitty / pityAlvo) * 100;
 
-    // Garante que o percentual não ultrapasse 100%
     percentual = Math.min(100, percentual);
 
     barraProgresso.style.width = percentual + "%";
     barraProgresso.innerText = Math.round(percentual) + "%";
 
-    // Muda a cor para azul quando o Pity atinge 70
     if (pitty >= 70) {
         barraProgresso.classList.remove("bg-rosa");
         barraProgresso.classList.add("bg-rosaa");
@@ -285,11 +285,11 @@ function atualizarGraficoPizza() {
 function atualizarDadosGraficoPizza(cinzaCount, roxoCount, amareloCount) {
     const ctx = document.getElementById("graficoPizza").getContext("2d");
     if (window.myChart) {
-        // Se o gráfico já existe, atualize os dados
+      
         window.myChart.data.datasets[0].data = [cinzaCount, roxoCount, amareloCount];
         window.myChart.update();
     } else {
-        // Se o gráfico ainda não existe, crie-o
+       
         window.myChart = new Chart(ctx, {
             type: "pie",
             data: {
@@ -309,7 +309,6 @@ function atualizarDadosGraficoPizza(cinzaCount, roxoCount, amareloCount) {
     }
 }
 
-// Adiciona os ouvintes de eventos após a definição das funções
 document.getElementById("btsalvar").addEventListener('click', adicionarItem);
 document.getElementById("limpa").addEventListener('click', LimparItem);
 document.getElementById("desfaz").addEventListener('click', DesfazItem);
